@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Storie</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_add">Add Story</string>
+    <string name="title_profile">Profile</string>
+    <string name="splashscreen">SS Logo</string>
+    <string name="ss_app_name">SS App Name</string>
 </resources>
