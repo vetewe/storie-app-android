@@ -7,19 +7,23 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.storie.ui.home.HomeFragment"
+        android:name="com.example.storie.ui.main.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_add"
-        android:name="com.example.storie.ui.add_story.AddFragment"
+        android:name="com.example.storie.ui.main.add_story.AddStoryFragment"
         android:label="@string/title_add"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_add_story" >
+        <action
+            android:id="@+id/action_navigation_add_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.storie.ui.profile.ProfileFragment"
+        android:name="com.example.storie.ui.main.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_profile" />
 </navigation>
