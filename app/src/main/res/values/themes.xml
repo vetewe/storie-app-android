@@ -1,11 +1,37 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.Storie" parent="Theme.MaterialComponents.DayNight">
+<resources>
+
+    <style name="Theme.Storie" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/brown</item>
-        <item name="colorPrimaryVariant">@color/yellow</item>
+        <item name="colorPrimaryVariant">@color/brown</item>
         <item name="colorOnPrimary">@color/white</item>
+
         <item name="colorSecondary">@color/dark_green</item>
         <item name="colorSecondaryVariant">@color/soft_green</item>
         <item name="colorOnSecondary">@color/black</item>
+
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="SlideActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_out_left</item>
+    </style>
+
+    <style name="CardImageStory">
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="Theme.Storie.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+
+        <item name="appWidgetRadius">16dp</item>
+
+        <item name="appWidgetInnerRadius">8dp</item>
+
+    </style>
+
+    <style name="Theme.Storie.AppWidgetContainer" parent="Theme.Storie.AppWidgetContainerParent">
+
+        <item name="appWidgetPadding">16dp</item>
+
     </style>
 </resources>

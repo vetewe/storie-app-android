@@ -1,6 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.Storie" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Storie.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault.DayNight">
         <item name="colorPrimary">@color/brown</item>
         <item name="colorPrimaryVariant">@color/brown</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -10,14 +10,7 @@
         <item name="colorOnSecondary">@color/black</item>
 
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-    </style>
-
-    <style name="SlideActivityAnimation" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
-        <item name="android:activityCloseEnterAnimation">@anim/slide_out_left</item>
-    </style>
-
-    <style name="CardImageStory">
-        <item name="cornerSize">10%</item>
+        <item name="appWidgetRadius">@android:dimen/system_app_widget_background_radius</item>
+        <item name="appWidgetInnerRadius">@android:dimen/system_app_widget_inner_radius</item>
     </style>
 </resources>
