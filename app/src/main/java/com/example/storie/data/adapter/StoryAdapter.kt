@@ -1,14 +1,13 @@
 package com.example.storie.data.adapter
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.storie.data.response.ListStoryItem
@@ -17,7 +16,7 @@ import com.example.storie.ui.activity.detail_story.DetailStoryActivity
 import com.example.storie.utils.DateFormatter
 
 class StoryAdapter :
-    ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(
+    PagingDataAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(
         DIFF_CALLBACK
     ) {
     override fun onCreateViewHolder(
@@ -36,10 +35,12 @@ class StoryAdapter :
         position: Int
     ) {
         val story = getItem(position)
-        holder.bind(story)
+        if (story != null) {
+            holder.bind(story)
+        }
 
         holder.itemView.setOnClickListener {
-            val storyId = story.id
+            val storyId = story?.id
             val intentId = Intent(holder.itemView.context, DetailStoryActivity::class.java).apply {
                 putExtra(DetailStoryActivity.EXTRA_ID, storyId)
             }
@@ -59,7 +60,6 @@ class StoryAdapter :
 
     class MyViewHolder(val binding: ItemStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        @SuppressLint("SetTextI18n")
         fun bind(story: ListStoryItem) {
             binding.tvDetailName.text = story.name
             binding.tvItemDescription.text = story.description

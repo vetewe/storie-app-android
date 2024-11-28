@@ -39,5 +39,4 @@ class StoryWidget : AppWidgetProvider() {
 
         appWidgetManager.updateAppWidget(appWidgetId, rv)
     }
-
 }

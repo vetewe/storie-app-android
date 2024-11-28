@@ -31,5 +31,4 @@ class RegisterViewModelFactory private constructor(
                 )
             }.also { instance = it }
     }
-
 }
