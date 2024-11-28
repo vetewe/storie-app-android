@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -27,6 +28,8 @@ import com.example.storie.ui.activity.camera.CameraActivity
 import com.example.storie.utils.AppExecutors
 import com.example.storie.utils.reduceFileImage
 import com.example.storie.utils.uriToFile
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -43,6 +46,8 @@ class AddStoryFragment : Fragment() {
     }
 
     private val appExecutors: AppExecutors by lazy { AppExecutors() }
+
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private val launchGallery = registerForActivityResult(
         ActivityResultContracts.GetContent()
@@ -81,6 +86,15 @@ class AddStoryFragment : Fragment() {
         }
     }
 
+    private val requestLocationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { permission: Boolean ->
+        if (permission) {
+            getLocation()
+        } else {
+            showSnackBar(getString(R.string.location_permission_denied))
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -91,6 +105,9 @@ class AddStoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
+
         setupAnimation()
         setButtonEnable()
         checkChanged()
@@ -99,6 +116,14 @@ class AddStoryFragment : Fragment() {
 
         binding.btnGallery.setOnClickListener { startGallery() }
         binding.btnCameraX.setOnClickListener { startCameraX() }
+
+        binding.switchLocation.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                getLocation()
+            } else {
+                addStoryViewModel.setLocation(null, null)
+            }
+        }
 
         if (!allPermissionGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
@@ -114,10 +139,7 @@ class AddStoryFragment : Fragment() {
                         findNavController().popBackStack()
                     }
                 }
-
             })
-
-
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -130,21 +152,24 @@ class AddStoryFragment : Fragment() {
 
                 appExecutors.diskIO.execute {
                     try {
-                        val imageFIle = uriToFile(currentImageUri, requireContext())
-                        val reduceImageFile = imageFIle.reduceFileImage()
+                        val imageFile = uriToFile(currentImageUri, requireContext())
+                        val reduceImageFile = imageFile.reduceFileImage()
                         val description = binding.edAddDescription.text.toString()
                         val requestBody = description.toRequestBody("text/plain".toMediaType())
                         val requestImageFile =
                             reduceImageFile.asRequestBody("image/jpeg".toMediaType())
                         val multiPart = MultipartBody.Part.createFormData(
                             "photo", reduceImageFile.name, requestImageFile
-
                         )
+                        val location = addStoryViewModel.location.value
+                        val lat =
+                            location?.first?.toString()?.toRequestBody("text/plain".toMediaType())
+                        val lon =
+                            location?.second?.toString()?.toRequestBody("text/plain".toMediaType())
+
                         appExecutors.mainThread.execute {
-                            addStoryViewModel.uploadImage(multiPart, requestBody)
-
+                            addStoryViewModel.uploadImage(multiPart, requestBody, lat, lon)
                         }
-
                     } catch (e: Exception) {
                         appExecutors.mainThread.execute {
                             showSnackBar(getString(R.string.add_story_failed_dialog, e.message))
@@ -153,15 +178,12 @@ class AddStoryFragment : Fragment() {
                         }
                     }
                 }
-
-
             } else {
-
                 showSnackBar(getString(R.string.pick_or_capture_photo_dialog))
-
             }
         }
     }
+
 
     private fun setupObserver() {
         addStoryViewModel.selectImageUri.observe(viewLifecycleOwner) {
@@ -183,8 +205,29 @@ class AddStoryFragment : Fragment() {
 
         addStoryViewModel.uploadSuccess.observe(viewLifecycleOwner) {
             if (it) {
-                toHomeFragment()
                 resetFragment()
+                toHomeFragment()
+            }
+        }
+    }
+
+    private fun getLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestLocationPermissionLauncher.launch(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            return
+        }
+
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                addStoryViewModel.setLocation(location.latitude, location.longitude)
+            } else {
+                showSnackBar(getString(R.string.location_not_found))
             }
         }
     }
@@ -199,18 +242,12 @@ class AddStoryFragment : Fragment() {
 
     private fun checkChanged() {
         binding.edAddDescription.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 setButtonEnable()
             }
 
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-
+            override fun afterTextChanged(s: Editable?) {}
         })
     }
 
@@ -219,52 +256,49 @@ class AddStoryFragment : Fragment() {
         binding.buttonAdd.isEnabled = (description.toString().isNotEmpty())
     }
 
-    private fun resetFragment() {
-        addStoryViewModel.setSelectImageUri(null)
-        binding.edAddDescription.text.clear()
-        binding.previewImage.setImageURI(null)
-    }
-
-
-    private fun allPermissionGranted() = ContextCompat.checkSelfPermission(
-        requireContext(), REQUIRED_PERMISSION
-    ) == PackageManager.PERMISSION_GRANTED
-
     private fun startCameraX() {
-        val intentCamera = Intent(requireActivity(), CameraActivity::class.java)
-        launchCameraActivity.launch(intentCamera)
+        val intent = Intent(requireContext(), CameraActivity::class.java)
+        launchCameraActivity.launch(intent)
     }
 
     private fun startGallery() {
         launchGallery.launch("image/*")
     }
 
-    private fun showImage() {
-        val uri = addStoryViewModel.selectImageUri.value
-        uri?.let {
-            Log.d("Image URI", "showImage: $it")
-            binding.previewImage.setImageURI(it)
-        }
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showSnackBar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun setupAnimation() {
-        ObjectAnimator.ofFloat(binding.ivBanner, View.TRANSLATION_Y, -25f, 25f).apply {
+        ObjectAnimator.ofFloat(binding.ivBanner, View.TRANSLATION_X, -30f, 30f).apply {
             duration = 6000
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.REVERSE
         }.start()
-
     }
 
-    private fun showSnackBar(message: String) {
-        Snackbar.make(
-            requireView(), message, Snackbar.LENGTH_SHORT
-        ).show()
+    private fun showImage() {
+        addStoryViewModel.selectImageUri.value?.let {
+            binding.previewImage.setImageURI(it)
+        }
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding.overlay.visibility = if (isLoading) View.VISIBLE else View.GONE
+    private fun resetFragment() {
+        addStoryViewModel.setSelectImageUri(null)
+        addStoryViewModel.setLocation(null, null)
+        binding.edAddDescription.text?.clear()
+        binding.switchLocation.isChecked = false
+    }
+
+    private fun allPermissionGranted() = REQUIRED_PERMISSION.all {
+        ContextCompat.checkSelfPermission(
+            requireContext(),
+            REQUIRED_PERMISSION
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onDestroyView() {

@@ -195,7 +195,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="326dp">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/tv_title_description"
@@ -213,7 +213,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputLayout"
                     android:layout_width="0dp"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="@+id/tv_title_description"
                     app:layout_constraintStart_toStartOf="@+id/tv_title_description"
@@ -223,11 +223,12 @@
                     <EditText
                         android:id="@+id/ed_add_description"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:autofillHints=""
                         android:ems="10"
+                        android:background="@color/white"
                         android:gravity="start|top"
                         android:hint="@string/type_here"
                         android:inputType="textMultiLine"
@@ -241,11 +242,25 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switch_location"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/switch_text_location"
+                    app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+                    app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+                    app:thumbTint="@color/yellow"
+                    app:trackTint="@color/brown"
+                    tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
+
                 <com.example.storie.ui.custom.ButtonAddStory
                     android:id="@+id/button_add"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="16dp"
                     android:elevation="0dp"
                     android:enabled="false"
                     android:textAllCaps="false"
@@ -254,7 +269,8 @@
                     app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-                    tools:ignore="VisualLintButtonSize" />
+                    app:layout_constraintTop_toBottomOf="@+id/switch_location"
+                    tools:ignore="VisualLintButtonSize,TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

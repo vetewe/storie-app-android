@@ -1,17 +1,21 @@
 package com.example.storie.ui.main.home
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.storie.data.Result
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storie.R
+import com.example.storie.data.adapter.LoadingStateAdapter
 import com.example.storie.data.adapter.StoryAdapter
 import com.example.storie.databinding.FragmentHomeBinding
+import com.example.storie.ui.activity.maps.MapsActivity
 import com.google.android.material.snackbar.Snackbar
 
 class HomeFragment : Fragment() {
@@ -23,8 +27,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -36,59 +39,66 @@ class HomeFragment : Fragment() {
         setupRecyclerView()
         setupObservers()
         setupAnimation()
-        setupRefreshLayout()
-
-        homeViewModel.findStory()
+        setupAction()
     }
 
-    override fun onResume() {
-        super.onResume()
-        homeViewModel.findStory()
+    private fun setupAction() {
+        binding.buttonMaps.setOnClickListener {
+            val intentMaps = Intent(requireActivity(), MapsActivity::class.java)
+            startActivity(intentMaps)
+        }
     }
 
     private fun setupRecyclerView() {
+        val storyAdapter = StoryAdapter()
+
         binding.rvStory.layoutManager = LinearLayoutManager(requireActivity())
-        binding.rvStory.adapter = StoryAdapter()
-    }
+        binding.rvStory.adapter = storyAdapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                storyAdapter.retry()
+            }
+        )
 
-    private fun setupObservers() {
-        homeViewModel.story.observe(viewLifecycleOwner) { result ->
-            binding.swipeRefreshLayout.isRefreshing = false
-            when (result) {
-                is Result.Loading -> binding.progressBar.visibility = View.VISIBLE
-                is Result.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    (binding.rvStory.adapter as StoryAdapter).submitList(result.data)
-                }
+        homeViewModel.story.observe(requireActivity()) {
+            storyAdapter.submitData(lifecycle, it)
+        }
 
-                is Result.Error -> {
-                    binding.progressBar.visibility = View.GONE
+        storyAdapter.addLoadStateListener { loadState ->
+            _binding?.let { binding ->
+                binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                if (loadState.source.refresh is LoadState.Error) {
+                    val error = (loadState.source.refresh as LoadState.Error).error
                     Snackbar.make(
-                        requireView(),
-                        getString(R.string.failed_load_story), Snackbar.LENGTH_SHORT
-                    )
-                        .show()
+                        binding.root,
+                        "Error: ${error.message}",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
-
-        homeViewModel.userName.observe(viewLifecycleOwner) { name ->
-            binding.tvWelcomeUser.text = getString(R.string.welcome_user, name)
-        }
     }
 
-    private fun setupRefreshLayout() {
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            homeViewModel.findStory()
+    private fun setupObservers() {
+        homeViewModel.userName.observe(viewLifecycleOwner) { name ->
+            _binding?.let { binding ->
+                binding.tvWelcomeUser.text = getString(R.string.welcome_user, name)
+            }
         }
     }
 
     private fun setupAnimation() {
-        ObjectAnimator.ofFloat(binding.ivWelcomeHome, View.TRANSLATION_Y, -25f, 25f).apply {
-            duration = 6000
-            repeatCount = ObjectAnimator.INFINITE
-            repeatMode = ObjectAnimator.REVERSE
-        }.start()
+        _binding?.let { binding ->
+            ObjectAnimator.ofFloat(binding.ivWelcomeHome, View.TRANSLATION_Y, -25f, 25f).apply {
+                duration = 5900
+                repeatCount = ObjectAnimator.INFINITE
+                repeatMode = ObjectAnimator.REVERSE
+            }.start()
+            ObjectAnimator.ofFloat(binding.ivBannerHome2, View.TRANSLATION_Y, -30f, 30f).apply {
+                duration = 6500
+                repeatCount = ObjectAnimator.INFINITE
+                repeatMode = ObjectAnimator.REVERSE
+            }.start()
+        }
     }
 
     override fun onDestroyView() {
