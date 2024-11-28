@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -21,9 +23,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Storie"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAqpPr66BqZSle2NlWYIXjbvRxoKN17Cmk" />
+
         <activity
             android:name=".ui.activity.maps.MapsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/title_activity_maps" />
 
         <receiver
             android:name=".ui.widget.StoryWidget"
