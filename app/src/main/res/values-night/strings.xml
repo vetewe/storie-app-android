@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="text_location">Location</string>
+    <string name="switch_text_location">Show my location</string>
+    <string name="btn_text_banner_2_home">Lets find out!</string>
+    <string name="image_view_banner_2_home">Home banner image 2</string>
+    <string name="description_banner_2_home">Stories from all over Indonesia! Curious about which regions? Find out now!</string>
+    <string name="item_msg_error_text">Unable to load stories</string>
+    <string name="location_permission_denied">Location access permit denied</string>
+    <string name="location_not_found">Your location cannot be found</string>
+    <string name="no_location_story">There is no location</string>
+    <string name="failed_to_get_story_location">Failed to get a story location</string>
+    <string name="style_parsing_failed">Style parsing failed</string>
+</resources>

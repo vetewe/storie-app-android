@@ -85,4 +85,17 @@
     <string name="no_story_widget">Non ci sono storie</string>
     <string name="story_image_widget">Immagine della storia</string>
     <string name="story_description_widget">Descrizione della storia</string>
-    </resources>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="text_location">Localizzazione</string>
+    <string name="switch_text_location">Mostra la mia posizione</string>
+    <string name="btn_text_banner_2_home">Scopriamolo!</string>
+    <string name="image_view_banner_2_home">Immagine banner home 2</string>
+    <string name="description_banner_2_home">Storie da tutta l Indonesia! Siete curiosi di sapere quali regioni? Scoprilo subito!</string>
+    <string name="retry_item_story_button_text">Retry</string>
+    <string name="item_msg_error_text">Impossibile caricare storie</string>
+    <string name="location_permission_denied">Accesso alla posizione negato</string>
+    <string name="location_not_found">La tua posizione non può essere trovata</string>
+    <string name="no_location_story">Non c è nessuna località</string>
+    <string name="failed_to_get_story_location">Non è stato possibile ottenere la posizione di una storia</string>.
+    <string name="style_parsing_failed">Il parsing dello stile non è riuscito</string>.
+</resources>

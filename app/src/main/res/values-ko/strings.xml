@@ -85,4 +85,17 @@
     <string name="no_story_widget">스토리가 없습니다</string>
     <string name="story_image_widget">스토리 이미지</string>
     <string name="story_description_widget">스토리 설명</string>
-    </resources>
+    <string name="title_activity_maps">지도 활동</string>
+    <string name="text_location">위치</string>
+    <string name="switch_text_location">내 위치 표시</string>
+    <string name="btn_text_banner_2_home">찾아보세요!</string>
+    <string name="image_view_banner_2_home">홈 배너 이미지 2</string>
+    <string name="description_banner_2_home">인도네시아 곳곳의 이야기! 어떤 지역이 궁금하신가요? 지금 알아보세요!</string>
+    <string name="retry_item_story_button_text">재시도</string>
+    <string name="item_msg_error_text">스토리를 로드할 수 없습니다</string>
+    <string name="location_permission_denied">위치 액세스 권한이 거부되었습니다</string>
+    <string name="location_not_found">사용자의 위치를 찾을 수 없습니다</string>
+    <string name="no_location_story">현재 위치가 없습니다</string>
+    <string name="failed_to_get_story_location">스토리 위치를 가져오지 못했습니다</string>
+    <string name="style_parsing_failed">스타일 구문 분석에 실패했습니다</string>
+</resources>

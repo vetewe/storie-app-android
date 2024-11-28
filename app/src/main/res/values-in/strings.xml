@@ -85,4 +85,17 @@
     <string name="no_story_widget">Tidak ada cerita</string>
     <string name="story_image_widget">Gambar cerita</string>
     <string name="story_description_widget">Deskripsi cerita</string>
+    <string name="title_activity_maps">Aktifitas peta</string>
+    <string name="text_location">Lokasi</string>
+    <string name="switch_text_location">Tampilkan lokasi saya</string>
+    <string name="btn_text_banner_2_home">Ayo cari tahu!</string>
+    <string name="image_view_banner_2_home">Gambar spanduk beranda 2</string>
+    <string name="description_banner_2_home">Cerita-cerita dari seluruh Indonesia! Penasaran daerah mana saja? Cari tahu sekarang!</string>
+    <string name="retry_item_story_button_text">Muat ulang</string>
+    <string name="item_msg_error_text">Tidak dapat memuat cerita</string>
+    <string name="location_permission_denied">Izin akses lokasi ditolak</string>
+    <string name="location_not_found">Lokasi Anda tidak dapat ditemukan</string>
+    <string name="no_location_story">Tidak ada lokasi</string>
+    <string name="failed_to_get_story_location">Gagal mendapatkan lokasi cerita</string>
+    <string name="style_parsing_failed">Penguraian gaya gagal</string>
 </resources>
