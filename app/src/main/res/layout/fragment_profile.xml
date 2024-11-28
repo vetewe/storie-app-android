@@ -56,7 +56,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/ivProfileUser"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/tv_title_user_id"
@@ -132,7 +133,8 @@
         app:layout_constraintEnd_toEndOf="@+id/switch_dark_mode"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button_change_language"
-        app:layout_constraintTop_toBottomOf="@+id/switch_dark_mode" />
+        app:layout_constraintTop_toBottomOf="@+id/switch_dark_mode"
+        tools:ignore="VisualLintButtonSize" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_dark_mode"
@@ -145,7 +147,8 @@
         app:layout_constraintStart_toStartOf="@+id/tv_title_setting"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_setting"
         app:trackTint="@color/yellow"
-        app:thumbTint="@color/brown" />
+        app:thumbTint="@color/brown"
+        tools:ignore="VisualLintButtonSize" />
 
     <Button
         android:id="@+id/button_change_language"
@@ -160,5 +163,6 @@
         app:layout_constraintEnd_toStartOf="@+id/button_action_logout"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/switch_dark_mode"
-        app:layout_constraintTop_toBottomOf="@+id/switch_dark_mode" />
+        app:layout_constraintTop_toBottomOf="@+id/switch_dark_mode"
+        tools:ignore="VisualLintButtonSize" />
 </androidx.constraintlayout.widget.ConstraintLayout>

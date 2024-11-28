@@ -23,7 +23,6 @@ import com.example.storie.ui.activity.welcome.WelcomeActivity
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var splashViewModel: SplashViewModel
-    @SuppressLint("UnsafeIntentLaunch")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

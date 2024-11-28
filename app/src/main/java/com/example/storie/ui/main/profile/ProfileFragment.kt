@@ -18,6 +18,7 @@ import com.example.storie.databinding.FragmentProfileBinding
 import com.example.storie.ui.activity.setting.SettingViewModel
 import com.example.storie.ui.activity.setting.SettingViewModelFactory
 import com.example.storie.ui.activity.welcome.WelcomeActivity
+import com.example.storie.utils.IdlingResource
 
 class ProfileFragment : Fragment() {
 
@@ -88,11 +89,13 @@ class ProfileFragment : Fragment() {
             setTitle(getString(R.string.logout_title))
             setMessage(getString(R.string.logout_confirmation))
             setPositiveButton(getString(R.string.yes)) { _, _ ->
+                IdlingResource.increment()
                 profileViewModel.logout()
                 val intent = Intent(requireContext(), WelcomeActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 activity?.finish()
+                IdlingResource.decrement()
             }
             setNegativeButton(getString(R.string.no), null)
             create()

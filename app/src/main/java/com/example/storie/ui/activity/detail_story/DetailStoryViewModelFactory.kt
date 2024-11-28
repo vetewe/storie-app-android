@@ -1,18 +1,18 @@
 package com.example.storie.ui.activity.detail_story
 
-import android.content.Context
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.storie.data.repositories.DetailStoryRepository
-import com.example.storie.di.Injection
 
 class DetailStoryViewModelFactory(
+    private val application: Application,
     private val detailStoryRepository: DetailStoryRepository
 ) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailStoryViewModel::class.java)) {
-            return DetailStoryViewModel(detailStoryRepository) as T
+            return DetailStoryViewModel(application, detailStoryRepository) as T
         }
         throw IllegalArgumentException("viewmodel class not found" + modelClass.name)
     }
@@ -22,11 +22,12 @@ class DetailStoryViewModelFactory(
         private var instance: DetailStoryViewModelFactory? = null
 
         fun getInstance(
-            context: Context
+            application: Application,
+            detailStoryRepository: DetailStoryRepository
         ): DetailStoryViewModelFactory =
             instance ?: synchronized(this) {
                 instance ?: DetailStoryViewModelFactory(
-                    Injection.storyDetailRepository(context)
+                    application, detailStoryRepository
                 )
             }.also { instance = it }
     }

@@ -1,6 +1,7 @@
 package com.example.storie.di
 
 import android.content.Context
+import com.example.storie.data.database.StoryDatabase
 import com.example.storie.data.preferences.UserPreference
 import com.example.storie.data.preferences.dataStore
 import com.example.storie.data.repositories.*
@@ -13,7 +14,8 @@ object Injection {
         val pref = UserPreference.getInstance(context.dataStore)
         val user = runBlocking { pref.getUserToken() }
         val apiService = ApiConfig.getApiService(user)
-        return StoryRepository.getInstance(apiService)
+        val storyDatabase = StoryDatabase.getInstance(context)
+        return StoryRepository.getInstance(storyDatabase,apiService)
     }
 
     fun storyDetailRepository(context: Context): DetailStoryRepository {
@@ -29,7 +31,6 @@ object Injection {
         val apiService = ApiConfig.getApiService(user)
         return WidgetStoryRepository.getInstance(apiService)
     }
-
 
     fun addStoryRepository(context: Context): AddStoryRepository {
         val pref = UserPreference.getInstance(context.dataStore)
@@ -54,5 +55,12 @@ object Injection {
         val user = runBlocking { pref.getUserToken() }
         val apiService = ApiConfig.getApiService(user)
         return LoginRepository.getInstance(apiService)
+    }
+
+    fun storyLocationRepository(context: Context): StoryLocationRepository {
+        val pref = UserPreference.getInstance(context.dataStore)
+        val user = runBlocking { pref.getUserToken() }
+        val apiService = ApiConfig.getApiService(user)
+        return StoryLocationRepository.getInstance(apiService)
     }
 }

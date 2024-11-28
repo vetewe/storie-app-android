@@ -43,16 +43,28 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_detail_photo" />
 
         <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/text_location"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_detail_name"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/tv_detail_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_name"
+            tools:ignore="VisualLintOverlap" />
+
+        <TextView
             android:id="@+id/tv_detail_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/date"
             android:textSize="16sp"
             android:transitionName="dateStoryDetail"
-            app:layout_constraintEnd_toEndOf="@+id/tv_detail_name"
+            app:layout_constraintEnd_toEndOf="@+id/tvLocation"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_detail_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_detail_name" />
+            app:layout_constraintStart_toStartOf="@+id/tvLocation"
+            app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
 
         <TextView
             android:id="@+id/tv_detail_description"
@@ -64,7 +76,7 @@
             android:transitionName="@string/story_detail_caption"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tv_detail_date"
-            app:layout_constraintStart_toStartOf="@+id/tv_detail_date"
+            app:layout_constraintStart_toStartOf="@+id/tvLocation"
             app:layout_constraintTop_toBottomOf="@+id/tv_detail_date" />
 
         <ProgressBar

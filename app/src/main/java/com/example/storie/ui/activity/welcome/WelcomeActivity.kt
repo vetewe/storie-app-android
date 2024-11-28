@@ -53,6 +53,7 @@ class WelcomeActivity : AppCompatActivity() {
         setUpAction()
 
         playAnimation()
+
     }
 
     private fun playAnimation() {
