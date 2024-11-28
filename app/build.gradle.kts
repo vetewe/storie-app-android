@@ -93,7 +93,7 @@ dependencies {
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.room.paging)
 
-    implementation(libs.espresso.idling.resource)
+    implementation(libs.androidx.espresso.idling.resource)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
 
@@ -109,7 +109,8 @@ dependencies {
     testImplementation(libs.mockito.inline)
 
     androidTestImplementation(libs.androidx.espresso.intents)
-    androidTestImplementation(libs.androidx.rules)
+//    androidTestImplementation(libs.androidx.rules)
     androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.androidx.espresso.idling.resource)
     androidTestImplementation(libs.androidx.uiautomator)
 }
