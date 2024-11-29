@@ -64,8 +64,12 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation( libs.androidx.activity.ktx)
     implementation(libs.androidx.datastore.core.android)
+    implementation(libs.androidx.junit.ktx)
 
     testImplementation(libs.junit)
+    testImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.androidx.uiautomator)
+    testImplementation(libs.androidx.espresso.intents)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
@@ -108,9 +112,7 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
 
-    androidTestImplementation(libs.androidx.espresso.intents)
 //    androidTestImplementation(libs.androidx.rules)
     androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.androidx.espresso.idling.resource)
-    androidTestImplementation(libs.androidx.uiautomator)
 }

@@ -25,6 +25,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels {
         HomeViewModelFactory.getInstance(requireContext())
     }
+    private var isDataInitiallyLoaded = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,13 +60,21 @@ class HomeFragment : Fragment() {
             }
         )
 
-        homeViewModel.story.observe(requireActivity()) {
+        homeViewModel.story.observe(viewLifecycleOwner) {
             storyAdapter.submitData(lifecycle, it)
         }
 
         storyAdapter.addLoadStateListener { loadState ->
             _binding?.let { binding ->
-                binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                if (!isDataInitiallyLoaded && loadState.source.refresh is LoadState.Loading) {
+                    binding.progressBar.isVisible = true
+                } else {
+                    binding.progressBar.isVisible = false
+                    if (loadState.source.refresh is LoadState.NotLoading) {
+                        isDataInitiallyLoaded = true
+                    }
+                }
+
                 if (loadState.source.refresh is LoadState.Error) {
                     val error = (loadState.source.refresh as LoadState.Error).error
                     Snackbar.make(
