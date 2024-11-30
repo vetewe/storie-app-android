@@ -1,4 +1,4 @@
-package com.example.storie.ui.login
+package com.example.storie.ui.activity.login
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
@@ -14,7 +14,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.storie.R
-import com.example.storie.ui.activity.login.LoginActivity
 import com.example.storie.utils.IdlingResource
 import org.hamcrest.core.IsNot.not
 import org.junit.After

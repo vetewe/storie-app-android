@@ -102,6 +102,8 @@ dependencies {
     implementation(libs.play.services.location)
 
     implementation(libs.androidx.room.ktx)
+    androidTestImplementation(libs.androidx.espresso.intents)
+    androidTestImplementation(libs.androidx.uiautomator)
     ksp(libs.androidx.room.compiler)
 
     androidTestImplementation(libs.androidx.core.testing)
@@ -111,6 +113,8 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
+    testImplementation("net.bytebuddy:byte-buddy:1.14.5")
+    testImplementation("org.mockito:mockito-core:5.3.1")
 
 //    androidTestImplementation(libs.androidx.rules)
     androidTestImplementation(libs.androidx.runner)

@@ -8,13 +8,13 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.recyclerview.widget.ListUpdateCallback
-import com.example.storie.DataDummy
-import com.example.storie.MainDispatcherRule
+import com.example.storie.data.adapter.StoryAdapter
 import com.example.storie.data.preferences.UserPreference
 import com.example.storie.data.repositories.StoryRepository
 import com.example.storie.data.response.ListStoryItem
-import com.example.storie.getOrAwaitValue
-import com.example.storie.data.adapter.StoryAdapter
+import com.example.storie.ui.DataDummy
+import com.example.storie.ui.MainDispatcherRule
+import com.example.storie.ui.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -43,7 +43,7 @@ class HomeViewModelTest {
     private lateinit var userPreference: UserPreference
 
     @Test
-    fun whenGetStoryShouldNotBeNullandReturnData() = runTest {
+    fun `when Get Story Should Not Be Null and Return Data`() = runTest {
         val dummyStory = DataDummy.generateDummyStoryResponse()
         val data: PagingData<ListStoryItem> = StoryPagingSource.snapshot(dummyStory)
         val expectedStory = MutableLiveData<PagingData<ListStoryItem>>()
@@ -66,7 +66,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun whenGetStoryEmptyShouldReturnNoData() = runTest {
+    fun `when Get Story Empty Should Return No Data`() = runTest {
         val data: PagingData<ListStoryItem> = PagingData.from(emptyList())
         val expectedStory = MutableLiveData<PagingData<ListStoryItem>>()
         expectedStory.value = data
@@ -91,6 +91,7 @@ class HomeViewModelTest {
             }
         }
 
+
         override fun getRefreshKey(state: PagingState<Int, LiveData<List<ListStoryItem>>>): Int {
             return 0
         }
@@ -100,7 +101,7 @@ class HomeViewModelTest {
         }
     }
 
-    private val noopListUpdateCallback = object : ListUpdateCallback {
+    val noopListUpdateCallback = object : ListUpdateCallback {
         override fun onInserted(position: Int, count: Int) {}
         override fun onRemoved(position: Int, count: Int) {}
         override fun onMoved(fromPosition: Int, toPosition: Int) {}

@@ -1,4 +1,4 @@
-package com.example.storie
+package com.example.storie.ui
 
 import com.example.storie.data.response.ListStoryItem
 
