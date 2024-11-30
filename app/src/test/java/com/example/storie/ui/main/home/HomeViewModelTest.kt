@@ -101,7 +101,7 @@ class HomeViewModelTest {
         }
     }
 
-    val noopListUpdateCallback = object : ListUpdateCallback {
+    private val noopListUpdateCallback = object : ListUpdateCallback {
         override fun onInserted(position: Int, count: Int) {}
         override fun onRemoved(position: Int, count: Int) {}
         override fun onMoved(fromPosition: Int, toPosition: Int) {}
